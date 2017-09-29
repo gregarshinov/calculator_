@@ -2,7 +2,7 @@ from pythonds.basic.stack import Stack
 from pythonds.trees.binaryTree import BinaryTree
 import operator
 
-PRECEDENCE = {'*': 3, '/': 3, '+': 2, '-': 2}
+PRECEDENCE = {'*': 2, '/': 2, '+': 1, '-': 1}
 
 
 def tree_builder(raw_string):
