@@ -54,7 +54,7 @@ def evaluate(expression_tree):
 
 
 def main():
-    expression = '( ( 6 * 7 ) + ( 5 / 2 ) ) '
+    expression = '9 + ( 3 + 5) - 8 '
     print(evaluate(tree_builder(expression)))
 
 main()
