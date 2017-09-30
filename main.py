@@ -14,31 +14,43 @@ def tree_builder(raw_string):
         except ValueError:
             input_list.append(string_element)
     parent_stack = Stack()
-    tree = BinaryTree('')
+    tree = BinaryTree('root')
     parent_stack.push(tree)
     current_tree = tree
     for token in input_list:
         if token == '(':
-            current_tree.insertLeft(None)
+            current_tree.insertLeft('')
             parent_stack.push(current_tree)
             current_tree = current_tree.getLeftChild()
         elif type(token) == float:
-            if parent_stack and parent_stack[-1].getRootVal() == '':
+            if parent_stack and parent_stack[-1].getRootVal() == 'root':
                 current_tree.insertLeft(token)
             else:
+                if input_list.index(token) != 0 and input_list.index(token) != len(input_list) - 1\
+                        and input_list[input_list.index(token) + 1] in ['+', '-', '*', '/'] \
+                        and input_list[input_list.index(token) - 1] in ['+', '-', '*', '/']:
+                    if PRECEDENCE[input_list[input_list.index(token) + 1]] > PRECEDENCE[input_list[input_list.index(token) - 1]]:
+                        current_tree.insertLeft('')
+                        parent_stack.push(current_tree)
+                        current_tree = current_tree.getLeftChild()
                 current_tree.setRootVal(token)
                 parent = parent_stack.pop()
                 current_tree = parent
+                if input_list.index(token) >= 4\
+                        and input_list[input_list.index(token) - 1] in ['+', '-', '*', '/'] \
+                        and input_list[input_list.index(token) - 3] in ['+', '-', '*', '/']:
+                    if PRECEDENCE[input_list[input_list.index(token) - 1]] > PRECEDENCE[input_list[input_list.index(token) - 3]]:
+                        current_tree = parent_stack.pop()
         elif token in ['+', '-', '*', '/']:
             if current_tree.getRootVal() in ['+', '-', '*', '/']:
                 parent_tree = BinaryTree(token)
                 parent_tree.insertLeft(current_tree)
-                parent_tree.insertRight(None)
+                parent_tree.insertRight('')
                 parent_stack.push(parent_tree)
                 current_tree = parent_tree.getRightChild()
             else:
                 current_tree.setRootVal(token)
-                current_tree.insertRight(None)
+                current_tree.insertRight('')
                 parent_stack.push(current_tree)
                 current_tree = current_tree.getRightChild()
         elif token == ')':
@@ -64,7 +76,7 @@ def evaluate(expression_tree):
 
 
 def main():
-    expression = '9 *  ( 3 + 5 ) - 8 '
+    expression = '9 * ( 3 + 5 ) - 8 / 4 '
     print(evaluate(tree_builder(expression)))
 
 main()
