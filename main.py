@@ -6,7 +6,6 @@ PRECEDENCE = {'*': 2, '/': 2, '+': 1, '-': 1}
 
 
 def tree_builder(raw_string):
-    # string_input_list = re.findall('\d+|\+|-|\*|/|\(|\)', raw_string)
     string_input_list = raw_string.split()
     input_list = []
     for string_element in string_input_list:
@@ -55,7 +54,7 @@ def evaluate(expression_tree):
 
 
 def main():
-    expression = '9.3 + ( 3 * 5 ) - 8 '
+    expression = '( ( 6 * 7 ) + ( 5 / 2 ) ) '
     print(evaluate(tree_builder(expression)))
 
 main()
