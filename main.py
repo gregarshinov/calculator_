@@ -18,21 +18,21 @@ def tree_builder(raw_string):
     tree = BinaryTree('')
     parent_stack.push(tree)
     current_tree = tree
-    for element in input_list:
-        if element == '(':
+    for token in input_list:
+        if token == '(':
             current_tree.insertLeft('')
             parent_stack.push(current_tree)
             current_tree = current_tree.getLeftChild()
-        elif type(element) == float:
-            current_tree.setRootVal(element)
+        elif type(token) == float:
+            current_tree.setRootVal(token)
             parent = parent_stack.pop()
             current_tree = parent
-        elif element in ['+', '-', '*', '/']:
-            current_tree.setRootVal(element)
+        elif token in ['+', '-', '*', '/']:
+            current_tree.setRootVal(token)
             current_tree.insertRight('')
             parent_stack.push(current_tree)
             current_tree = current_tree.getRightChild()
-        elif element == ')':
+        elif token == ')':
             current_tree = parent_stack.pop()
         else:
             raise ValueError
@@ -55,7 +55,7 @@ def evaluate(expression_tree):
 
 
 def main():
-    expression = '( 3 * 5 ) - 8 + 9.3 + ( 76 / 87 ) '
+    expression = '9.3 + ( 3 * 5 ) - 8 '
     print(evaluate(tree_builder(expression)))
 
 main()
