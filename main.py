@@ -19,23 +19,33 @@ def tree_builder(raw_string):
     current_tree = tree
     for token in input_list:
         if token == '(':
-            current_tree.insertLeft('')
+            current_tree.insertLeft(None)
             parent_stack.push(current_tree)
             current_tree = current_tree.getLeftChild()
         elif type(token) == float:
-            current_tree.setRootVal(token)
-            parent = parent_stack.pop()
-            current_tree = parent
+            if parent_stack and parent_stack[-1].getRootVal() == '':
+                current_tree.insertLeft(token)
+            else:
+                current_tree.setRootVal(token)
+                parent = parent_stack.pop()
+                current_tree = parent
         elif token in ['+', '-', '*', '/']:
-            current_tree.setRootVal(token)
-            current_tree.insertRight('')
-            parent_stack.push(current_tree)
-            current_tree = current_tree.getRightChild()
+            if current_tree.getRootVal() in ['+', '-', '*', '/']:
+                parent_tree = BinaryTree(token)
+                parent_tree.insertLeft(current_tree)
+                parent_tree.insertRight(None)
+                parent_stack.push(parent_tree)
+                current_tree = parent_tree.getRightChild()
+            else:
+                current_tree.setRootVal(token)
+                current_tree.insertRight(None)
+                parent_stack.push(current_tree)
+                current_tree = current_tree.getRightChild()
         elif token == ')':
             current_tree = parent_stack.pop()
         else:
             raise ValueError
-    return tree
+    return current_tree
 
 
 def evaluate(expression_tree):
@@ -54,7 +64,7 @@ def evaluate(expression_tree):
 
 
 def main():
-    expression = '9 * ( 3 + 5 ) - 8 '
+    expression = '9 *  ( 3 + 5 ) - 8 '
     print(evaluate(tree_builder(expression)))
 
 main()
