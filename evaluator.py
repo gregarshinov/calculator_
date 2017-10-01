@@ -1,12 +1,14 @@
 from pythonds.basic.stack import Stack
 from pythonds.trees.binaryTree import BinaryTree
 import operator
+import re
 
 PRECEDENCE = {'*': 2, '/': 2, '+': 1, '-': 1}
 
 
 def tree_builder(raw_string):
-    string_input_list = raw_string.split()
+    regex = r'(\b\w*[\.]?\w+\b|[\(\)\+\*\-\/])'
+    string_input_list = re.findall(regex, raw_string)
     input_list = []
     for string_element in string_input_list:
         try:
@@ -76,7 +78,7 @@ def evaluate(expression_tree):
 
 
 def main():
-    expression = '9 * ( 3 + 5 ) - 8 / 4 '
+    expression = '9*(3+5)-8/4'
     print(evaluate(tree_builder(expression)))
 
 main()
