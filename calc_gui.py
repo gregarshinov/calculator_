@@ -75,3 +75,5 @@ def main():
     root = Tk()
     obj = calc(root)
     root.mainloop()
+
+main()

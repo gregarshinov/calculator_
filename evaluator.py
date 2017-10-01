@@ -80,5 +80,3 @@ def evaluate(expression_tree):
 def main():
     expression = '9*(3+5)-8/4'
     print(evaluate(tree_builder(expression)))
-
-main()
