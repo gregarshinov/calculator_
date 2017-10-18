@@ -24,6 +24,8 @@ def tree_builder(raw_string):
             current_tree.insertLeft('')
             parent_stack.push(current_tree)
             current_tree = current_tree.getLeftChild()
+            if input_list[input_list.index(token) + 1] == '-':
+                current_tree.insertLeft(0.0)
         elif type(token) == float:
             if parent_stack and parent_stack[-1].getRootVal() == 'root':
                 current_tree.insertLeft(token)
